@@ -1,6 +1,6 @@
 package com.digdes.school;
 
-public class Checker {
+public class ValueChecker {
     public static boolean checkEqual(Object o1, Object o2) {
         if (o1==null || o2==null) return false;
         return String.valueOf(o1).equals(String.valueOf(o2));
