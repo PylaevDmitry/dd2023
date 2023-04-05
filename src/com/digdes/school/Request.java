@@ -53,7 +53,7 @@ public enum Request {
         try {
             requestType = Request.valueOf(request.substring(0, 6).toUpperCase());
         } catch (IllegalArgumentException e) {
-            throw new Exception("Syntax error in expression " + request.substring(0, 6));
+            throw new Exception("Syntax error in expression: " + request.substring(0, 6));
         }
         request = request.substring(6).trim();
         if (request.toUpperCase().startsWith("VALUES")) request = request.substring(6).trim();
@@ -68,12 +68,8 @@ public enum Request {
         if (rowsStr.equals("")) return row;
         String[] rowsArr = rowsStr.split(",");
         for (String strRow : rowsArr) {
-            Pair pair = new Pair(strRow,"=");
-            if (pair.getValue().equals("null")) {
-                row.put(pair.getAttribute(), null);
-                return row;
-            }
-            row.put(pair.getAttribute(), pair.getValueAsObject());
+            Pair pair = new Pair(strRow);
+            row.put(pair.getAttribute(), pair.getValue());
         }
         return row;
     }

@@ -48,14 +48,12 @@ public class WhereSection {
     }
 
     private boolean checkSequenceConditions(Map<String, Object> row1) throws Exception {
-        if (sequence.length == 0) return Checker.checkCondition(row1, conditions[0]);
+        if (sequence.length == 0) return new Pair(conditions[0]).checkRow(row1);
         for (int i = 0; i < sequence.length; i++) {
-            if (sequence[i].equalsIgnoreCase("OR")) {
-                if (Checker.checkCondition(row1, conditions[i]) || Checker.checkCondition(row1, conditions[i + 1])) return true;
-            }
-            if (sequence[i].equalsIgnoreCase("AND")) {
-                if (Checker.checkCondition(row1, conditions[i]) && Checker.checkCondition(row1, conditions[i + 1])) return true;
-            }
+            boolean current = new Pair(conditions[i]).checkRow(row1);
+            boolean next = new Pair(conditions[i + 1]).checkRow(row1);
+            if (sequence[i].equalsIgnoreCase("OR")) if (current || next) return true;
+            if (sequence[i].equalsIgnoreCase("AND")) if (current && next) return true;
         }
         return false;
     }

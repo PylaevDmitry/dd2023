@@ -39,20 +39,21 @@ public class Main {
 //            result = starter.execute("SELECT WHERE 'lastname'>10");
 //            result = starter.execute("SELECT WHERE 'lastN'='Федоров'");
 //            result = starter.execute("SELECT WHERE 'cost'<='10.1'");
+//            result = starter.execute("SELECT WHERE 'cost'-10.1");
 
             //UPDATE
-            result = starter.execute("UPDATE VALUES 'active'=false, 'cost'=10.1 where 'id'=3");
+            result = starter.execute("UPDATE VALUES 'active'=false, 'cost'=10.3 where 'id'=3");
             result = starter.execute("UPDATE VALUES 'active'=true where 'Active'=false");
-            result = starter.execute("UPDATE VALUES 'lastName' = 'Попов' , 'id'=5, 'age'=null, 'active'=true WHERE 'id'=1");
+            result = starter.execute("UPDATE VALUES 'lastName' = 'Попов' , 'id'=5, 'age'=null, 'active'=false WHERE 'id'=1");
 
-            result = starter.execute("SELECT WHERE 'active'=true");
+            result = starter.execute("SELECT WHERE 'active'=false");
+            result = starter.execute("SELECT WHERE 'age'=null");
 
             result = starter.execute("UPDATE VALUES 'age'=21 WHERE 'id'=5");
 
             //DELETE
             result = starter.execute("DELETE WHERE 'id'=3");
             result = starter.execute("DELETE");
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }
