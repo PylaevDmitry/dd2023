@@ -2,7 +2,7 @@ package com.digdes.school;
 
 import java.util.Arrays;
 
-public class Relation {
+public class Pair {
     private static final String[] attributes = new String[]{
             "id",
             "lastname",
@@ -14,7 +14,7 @@ public class Relation {
     private String attribute;
     private String value;
 
-    public Relation(String str, String sign) throws Exception {
+    public Pair(String str, String sign) throws Exception {
         String[] pair = str.split(sign);
         attribute = pair[0].trim().replace("'", "").toLowerCase();
         if (Arrays.stream(attributes).noneMatch(attribute.toLowerCase()::contains))
@@ -33,7 +33,7 @@ public class Relation {
         return value;
     }
 
-    public Object getValueObject() throws Exception {
+    public Object getValueAsObject() throws Exception {
         Object valueAsObject;
         try {
             if (attribute.toLowerCase().equals(attributes[0]) || attribute.toLowerCase().equals(attributes[2]))
