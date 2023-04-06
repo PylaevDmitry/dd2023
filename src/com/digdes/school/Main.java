@@ -20,13 +20,14 @@ public class Main {
             //INSERT
             result = starter.execute("iNSERT VALUES 'lastName' = 'Петров', 'id'=1, 'age'=30, 'cost'=5.4, 'active'=true");
             result = starter.execute("INSERT VALUES 'lastName'= 'Иванов' , 'id'=2, 'aGe'=25, 'cost'=4.3, 'active'=false");
-            result = starter.execute("INSERT VALUES 'LastName' ='Федоров' , 'id' = 3, 'age'=40, 'Active'=true");
+            result = starter.execute("INSERT VALUES 'LastName' ='Федоров' , 'id' = 3, 'age'=40, 'Active'=true where 'id' = 3");
 
             //INSERT EXCEPTIONS
 //            result = starter.execute("INSERT VALUES 'lastN'='Федоров'");
 //            result = starter.execute("INЕERT VALUES 'lastName'='Федоров'");
 //            result = starter.execute("INSERT VALUES 'lastName'='Федоров', 'age'='11'");
 //            result = starter.execute("INSERT VALUES 'lastName'='Петров', 'age'=один");
+//            result = starter.execute("INSERT VALUES 'LastName' > 'Иванов'");
 
             //SELECT
             result = starter.execute("SELECT WHERE 'active'=true");

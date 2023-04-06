@@ -68,7 +68,7 @@ public enum Request {
         if (rowsStr.equals("")) return row;
         String[] rowsArr = rowsStr.split(",");
         for (String strRow : rowsArr) {
-            Pair pair = new Pair(strRow);
+            Pair pair = new Pair(strRow, "=");
             row.put(pair.getAttribute(), pair.getValue());
         }
         return row;

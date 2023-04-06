@@ -8,35 +8,45 @@ public class Pair {
     private static final String[] operators = new String[]{">=", "<=", "!=", "=", "ilike", "like", ">", "<"};
 
     private String attribute;
-    private final Object value;
+    private Object value;
     private final String sign;
 
     public Pair(String str) throws Exception {
         for (String operator : operators)
             if (str.contains(operator)) {
                 sign = operator;
-                String[] pair = str.split(sign);
-                attribute = pair[0].trim().replace("'", "").toLowerCase();
-                if (Arrays.stream(attributes).noneMatch(attribute.toLowerCase()::contains))
-                    throw new Exception("Invalid attribute in expression: " + str);
-                String valueStr = pair[1].trim();
-                if (attribute.equals(attributes[1])) {
-                    attribute = "lastName";
-                    valueStr = valueStr.replace("'", "");
-                }
-                if (valueStr.equals("null")) value = null;
-                else try {
-                    if (attribute.toLowerCase().equals(attributes[0]) || attribute.toLowerCase().equals(attributes[2]))
-                        value = Integer.valueOf(valueStr);
-                    else if (attribute.toLowerCase().equals(attributes[3])) value = Double.valueOf(valueStr);
-                    else if (attribute.toLowerCase().equals(attributes[4])) value = Boolean.valueOf(valueStr);
-                    else value = valueStr;
-                } catch (NumberFormatException e) {
-                    throw new Exception("Invalid datatype in expression: " + str);
-                }
+                buildPair(str);
                 return;
             }
         throw new Exception("Invalid operator in expression: " + str);
+    }
+
+    public Pair(String str, String sign) throws Exception {
+        if (!str.contains(sign)) throw new Exception("Invalid operator in expression: " + str);
+        this.sign = sign;
+        buildPair(str);
+    }
+
+    private void buildPair (String str) throws Exception {
+        String[] pair = str.split(sign);
+        attribute = pair[0].trim().replace("'", "").toLowerCase();
+        if (Arrays.stream(attributes).noneMatch(attribute.toLowerCase()::contains))
+            throw new Exception("Invalid attribute in expression: " + str);
+        String valueStr = pair[1].trim();
+        if (attribute.equals(attributes[1])) {
+            attribute = "lastName";
+            valueStr = valueStr.replace("'", "");
+        }
+        if (valueStr.equals("null")) value = null;
+        else try {
+            if (attribute.toLowerCase().equals(attributes[0]) || attribute.toLowerCase().equals(attributes[2]))
+                value = Integer.valueOf(valueStr);
+            else if (attribute.toLowerCase().equals(attributes[3])) value = Double.valueOf(valueStr);
+            else if (attribute.toLowerCase().equals(attributes[4])) value = Boolean.valueOf(valueStr);
+            else value = valueStr;
+        } catch (NumberFormatException e) {
+            throw new Exception("Invalid datatype in expression: " + str);
+        }
     }
 
     public String getAttribute() {
