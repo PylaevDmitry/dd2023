@@ -57,7 +57,7 @@ public class Pair {
         if (valueStr.equals("null")) value = null;
         else try {
             if (attribute.toLowerCase().equals(attributes[0]) || attribute.toLowerCase().equals(attributes[2]))
-                value = Integer.valueOf(valueStr);
+                value = Long.valueOf(valueStr);
             else if (attribute.toLowerCase().equals(attributes[3])) value = Double.valueOf(valueStr);
             else if (attribute.toLowerCase().equals(attributes[4])) value = Boolean.valueOf(valueStr);
             else value = valueStr;
