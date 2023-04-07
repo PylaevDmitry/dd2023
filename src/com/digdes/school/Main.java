@@ -38,6 +38,7 @@ public class Main {
 
             //SELECT EXCEPTIONS
 //            result = starter.execute("SELECT WHERE 'lastname'>10");
+//            result = starter.execute("SELECT WHERE 'id' like 10");
 //            result = starter.execute("SELECT WHERE 'lastN'='Федоров'");
 //            result = starter.execute("SELECT WHERE 'cost'<='10.1'");
 //            result = starter.execute("SELECT WHERE 'cost'-10.1");

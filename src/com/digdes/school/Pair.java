@@ -30,9 +30,26 @@ public class Pair {
     private void buildPair (String str) throws Exception {
         String[] pair = str.split(sign);
         attribute = pair[0].trim().replace("'", "").toLowerCase();
+        validate();
+        setValue(pair[1].trim());
+    }
+
+    private void validate() throws Exception {
         if (Arrays.stream(attributes).noneMatch(attribute.toLowerCase()::contains))
-            throw new Exception("Invalid attribute in expression: " + str);
-        String valueStr = pair[1].trim();
+            throw new Exception("Invalid datatype in expression: " + attribute + " "+ sign);
+        if (attribute.equals(attributes[1])) {
+            if (!sign.equals("=") && !sign.equals("like") && !sign.equals("ilike"))
+                throw new Exception("Invalid datatype in expression: " + attribute + " "+ sign);
+        } else if (attribute.equals(attributes[4])) {
+            if (!sign.equals("!=") && !sign.equals("="))
+                throw new Exception("Invalid datatype in expression: " + attribute + " "+ sign);
+        } else {
+            if (!sign.equals(">=") && !sign.equals("<=") && !sign.equals("=") && !sign.equals(">") && !sign.equals("<"))
+                throw new Exception("Invalid datatype in expression: " + attribute + " " + sign);
+        }
+    }
+
+    private void setValue(String valueStr) throws Exception {
         if (attribute.equals(attributes[1])) {
             attribute = "lastName";
             valueStr = valueStr.replace("'", "");
@@ -45,7 +62,7 @@ public class Pair {
             else if (attribute.toLowerCase().equals(attributes[4])) value = Boolean.valueOf(valueStr);
             else value = valueStr;
         } catch (NumberFormatException e) {
-            throw new Exception("Invalid datatype in expression: " + str);
+            throw new Exception("Invalid datatype in expression: " + attribute + sign + valueStr);
         }
     }
 
@@ -57,19 +74,15 @@ public class Pair {
         return value;
     }
 
-    public boolean checkRow(Map<String, Object> row) throws Exception {
-        try {
-            if (sign.equals(operators[0])) return checkEqualOrGreat(row.get(attribute), value);
-            if (sign.equals(operators[1])) return checkEqualOrLess(row.get(attribute), value);
-            if (sign.equals(operators[2])) return checkNotEqual(row.get(attribute), value);
-            if (sign.equals(operators[3])) return checkEqual(row.get(attribute), value);
-            if (sign.equals(operators[4])) return checkIlike(row.get(attribute), value);
-            if (sign.equals(operators[5])) return checkLike(row.get(attribute), value);
-            if (sign.equals(operators[6])) return checkGreat(row.get(attribute), value);
-            return checkLess(row.get(attribute), value);
-        } catch (NumberFormatException e) {
-            throw new Exception("Invalid datatype in expression: " + this);
-        }
+    public boolean checkRow(Map<String, Object> row) {
+        if (sign.equals(operators[0])) return checkEqualOrGreat(row.get(attribute), value);
+        if (sign.equals(operators[1])) return checkEqualOrLess(row.get(attribute), value);
+        if (sign.equals(operators[2])) return checkNotEqual(row.get(attribute), value);
+        if (sign.equals(operators[3])) return checkEqual(row.get(attribute), value);
+        if (sign.equals(operators[4])) return checkIlike(row.get(attribute), value);
+        if (sign.equals(operators[5])) return checkLike(row.get(attribute), value);
+        if (sign.equals(operators[6])) return checkGreat(row.get(attribute), value);
+        return checkLess(row.get(attribute), value);
     }
 
     public static boolean checkEqual(Object o1, Object o2) {
@@ -118,10 +131,5 @@ public class Pair {
         String o1Str = String.valueOf(o1);
         String o2Str = String.valueOf(o2);
         return checkLike(o1Str.toLowerCase(), o2Str.toLowerCase());
-    }
-
-    @Override
-    public String toString() {
-        return attribute + sign + value;
     }
 }
